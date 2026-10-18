@@ -15,6 +15,11 @@ class Post(BaseModel):
 
 my_posts = [{"title": "title of post 1", "content": "content of post 1", "id": 1}, {"title":"favourite foods", "content": "I like pizza", "id": 2}]
 
+def find_post(id):
+    for p in my_posts:
+        if p["id"] == id:
+            return p
+        
 
 # request comes with Get methods url: "/"
 @app.get("/")
@@ -25,7 +30,7 @@ def root():
 def get_posts():
     return{"data": "This is your posts"}
 
-@app.post("/createposts")
+@app.post("/posts")
 def create_posts(post: Post):
     post_dict = post.dict()
     post_dict['id'] = randrange(0, 1000000)
@@ -35,7 +40,17 @@ def create_posts(post: Post):
 
 
 @app.get("/posts/{id}")
-def get_post(id):
-    print(id)
-    return{"post_detail": f"Here is post {id}"}
+def get_post(id: int):
+    print(type(id))
+    post = find_post(id)
+    print(post)
+    return{"post_detail":post}
+
+@app.get("/posts/recent/latest")
+def get_latest_post():
+    post=my_posts[len(my_posts)-1]
+    return{"detail": post}
+
+    #print(id)
+    #return{"post_detail": f"Here is post {id}"}
 #title str, content str 
