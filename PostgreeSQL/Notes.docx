@@ -69,3 +69,101 @@ JSONB	Structured JSON data	{"theme":"dark"}
 
 Backend tip: Use NUMERIC for monetary values when exact decimal arithmetic is required.
 Understand the distinction between TIMESTAMP and TIMESTAMPTZ when working with dates in APIs.
+
+5. Constraints in PostgreSQL
+
+Constraints are rules applied to columns or tables to maintain data integrity.
+- PRIMARY KEY: Uniquely identifies each row and does not allow NULL.
+- FOREIGN KEY: Ensures that a referenced record exists in another table, or in the same table.
+- NOT NULL: Prevents a column from containing NULL.
+- UNIQUE: Prevents duplicate values according to the constraint's rules.
+- CHECK: Requires data to satisfy a condition.
+- DEFAULT: Supplies a value when one is not provided during insertion.
+Example:
+CREATE TABLE users (
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    age INTEGER CHECK (age >= 18),
+    is_active BOOLEAN DEFAULT TRUE
+);
+
+
+In this table, each user has a unique ID, an email is required, age must be at least 18 when provided, and is_active defaults to TRUE.
+
+Why are constraints important? 
+They protect your database even if invalid data is sent by a frontend or another application. Application validation and database constraints serve complementary purposes.
+
+6. CRUD operations
+
+CRUD stands for Create, Read, Update and Delete. These four operations are the foundation of most backend APIs.
+Operation	Meaning	SQL command
+
+Create	Add a record	INSERT
+Read	Retrieve records	SELECT
+Update	Modify records	UPDATE
+Delete	Remove records	DELETE
+For example, in a task management application:
+- Create: Add a new task.
+- Read: Display the user's tasks.
+- Update: Mark a task as completed.
+- Delete: Remove a task.
+
+In FastAPI, these operations are often exposed through HTTP endpoints such as POST, GET, PATCH or PUT, and DELETE.
+
+7. Primary key and foreign key
+A primary key identifies a record uniquely. A foreign key establishes a relationship between records.
+
+Suppose you have two tables:
+- users: contains user information.
+- orders: contains orders placed by users.
+Each order has a user_id foreign key that references users.id.
+
+This means an order can be associated with a user without duplicating all the user's details inside the order record.
+
+Important: A foreign key does not automatically mean that each user can have only one order. One user can have multiple orders if the relationship is designed that way.
+8. Relationships in a database
+
+There are three fundamental types of relationships.
+
+One-to-one (1:1) >>> One record relates to at most one record in another table, and vice versa.
+
+Example: A user and a unique profile record.
+
+One-to-many (1:N) >>> One record can relate to many records in another table.
+
+Example: One user can place many orders.
+
+Many-to-many (M:N) >>> Multiple records can relate to multiple records in another table.
+
+Example: Many students can enrol in many courses. A junction table such as student_courses represents the relationship.
+
+Relationships help reduce duplication and maintain consistent data.
+
+9. SQL JOINs
+
+A JOIN combines data from two or more tables using a related column or condition.
+
+The main JOIN types are:
+- INNER JOIN: Returns only matching records from both sides.
+- LEFT JOIN: Returns all records from the left table and matching records from the right. Unmatched right-side columns contain NULL.
+- RIGHT JOIN: Returns all records from the right table and matching records from the left.
+- FULL OUTER JOIN: Returns matching records and unmatched records from both sides.
+- CROSS JOIN: Returns every possible combination of rows from both tables.
+Example: To display users and their orders, you can join the users and orders tables through users.id = orders.user_id.
+
+Backend use case: JOINs are useful for APIs that return related information, such as order details with customer names or products with their categories.
+
+10. WHERE, GROUP BY and HAVING
+
+These clauses help filter and summarize data.
+- WHERE: Filters individual rows before grouping.
+- GROUP BY: Groups rows that share the same values.
+- HAVING: Filters groups after aggregation.
+- ORDER BY: Sorts the resulting rows.
+- LIMIT: Restricts the number of returned rows.
+For example, in an expense tracker, GROUP BY category can group expenses by category, 
+and SUM(amount) can calculate the total spent in each category. HAVING SUM(amount) > 1000 
+can then filter categories whose total exceeds 1,000.
+
+Remember: WHERE filters rows, while HAVING filters groups.
