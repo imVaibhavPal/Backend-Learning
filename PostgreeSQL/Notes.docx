@@ -167,3 +167,68 @@ and SUM(amount) can calculate the total spent in each category. HAVING SUM(amoun
 can then filter categories whose total exceeds 1,000.
 
 Remember: WHERE filters rows, while HAVING filters groups.
+
+11. Normalization >>> Normalization is the process of organizing database tables to reduce unnecessary duplication and prevent data anomalies.
+
+Consider an orders table that repeats the customer's name and address in every order. If the address changes, many rows may need updating.
+
+A normalized design can separate the information into:
+- A users table for customer details.
+- An orders table for order details, linked through a foreign key.
+
+Important normal forms:
+- 1NF: Each column contains a single value in each row, with no repeating groups.
+- 2NF: The table is in 1NF, and every non-key attribute depends on the whole candidate key, not just part of a composite key.
+- 3NF: The table is in 2NF and avoids inappropriate transitive dependencies of non-key attributes on candidate keys.
+
+Normalization improves consistency and reduces redundancy, though some applications deliberately denormalize data for performance.
+
+12. Indexes >>> An index is a database structure that can help PostgreSQL locate rows without scanning the entire table.
+
+For example, if an API frequently looks up users by email, an index on the email column may improve query performance.
+
+Benefits:
+- Can speed up searches, joins and some sorting operations.
+- Can help enforce uniqueness when using a unique index.
+
+Trade-offs:
+- Consume additional disk space.
+- Add overhead to inserts, updates and deletes.
+
+Do not create indexes on every column. Use query patterns and tools such as EXPLAIN ANALYZE to determine where indexes are beneficial.
+
+13. Transactions and ACID properties
+
+A transaction is a group of database operations treated as one logical unit.
+For example, a money transfer involves subtracting money from one account and adding it to another. Both changes should succeed together.
+
+ACID stands for:
+- Atomicity: The transaction succeeds as a unit or is rolled back.
+- Consistency: The transaction preserves defined database rules.
+- Isolation: Concurrent transactions are managed according to the chosen isolation level.
+- Durability: Committed changes persist, subject to the database's durability configuration.
+PostgreSQL supports transactions using BEGIN, COMMIT and ROLLBACK.
+
+Transactions are essential in payment processing, order creation and other operations involving multiple dependent changes.
+
+14. What is SQLAlchemy, and why is it used with PostgreSQL?
+
+SQLAlchemy is a Python SQL toolkit and Object-Relational Mapper (ORM).
+
+An ORM lets you represent database tables as Python classes and records as Python objects. It can generate SQL queries for you, so you do not have to write every query manually.
+
+For example:
+- PostgreSQL stores a user's record in the users table.
+- A SQLAlchemy User model represents that table in Python.
+- Your FastAPI endpoint uses a database session to query or modify users.
+- The database executes the generated SQL and returns the results.
+
+Learn these concepts:
+- Models and mapped columns.
+- Database engines and connection URLs.
+- Sessions and transactions.
+- CRUD operations.
+- Relationships between models.
+- Error handling and connection management.
+- Alembic migrations to track database schema changes.
+SQLAlchemy does not replace PostgreSQL; it helps your Python application work with it.
