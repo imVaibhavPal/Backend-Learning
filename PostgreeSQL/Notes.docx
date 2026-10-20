@@ -1,0 +1,71 @@
+PostgreSQL Theory Notes for Python Backend Development
+These notes are designed for you to understand PostgreSQL from basics to backend development, with simple explanations, examples, and interview points. Study the topics in order.
+
+
+1. What is PostgreSQL?
+
+PostgreSQL is an open-source, relational database management system (RDBMS) used to store, manage, retrieve, and update structured data.
+
+For example, in an expense tracker application, PostgreSQL can store users, expenses, categories, dates, and amounts.
+
+Why do backend developers use PostgreSQL?
+- To store application data permanently.
+- To retrieve data when a user makes a request.
+- To maintain relationships between different tables.
+- To validate data using constraints.
+- To handle multiple users and transactions reliably.
+Interview answer: PostgreSQL is an open-source relational database that uses SQL to manage structured data and supports relationships, transactions, constraints, and advanced querying.
+
+
+2. Database, table, row and column
+
+Example: Users table
+id	name	email
+1	Aman	aman@example.com
+2	Riya	riya@example.com
+A table is made of rows and columns. Each row represents one record; each column represents one attribute.
+
+- Database: A collection of organized data and database objects.
+- Table: Stores data about a particular entity, such as users or products.
+- Row: One complete record.
+- Column: One property of a record.
+- Schema: A namespace used to organize database objects such as tables and views.
+- Query: A command used to retrieve or manipulate data.
+For example, a database for an e-commerce application might contain users, products, orders, and payments tables.
+
+
+3. SQL and PostgreSQL
+
+SQL stands for Structured Query Language. It is the language used to communicate with relational databases.
+
+PostgreSQL is the database system; SQL is the language you use to interact with it.
+
+SQL commands are commonly divided into these categories:
+Category	Meaning	Examples
+DDL	Defines database structure	CREATE, ALTER, DROP
+DML	Modifies data	INSERT, UPDATE, DELETE
+DQL	Retrieves data	SELECT
+DCL	Manages access permissions	GRANT, REVOKE
+TCL	Controls transactions	COMMIT, ROLLBACK
+
+Note: These are common learning categories; SQL references sometimes classify SELECT under DML as well.
+
+
+4. Data types in PostgreSQL
+
+A data type determines what kind of value a column can store.
+Data type	Purpose	Example
+
+INTEGER	Whole numbers	25
+BIGINT	Larger whole numbers	9000000000
+VARCHAR(n)	Text with a specified maximum length	'Vaibhav'
+TEXT	Text without a declared length limit	'Backend Developer'
+BOOLEAN	True or false	TRUE
+DATE	Calendar date	'2026-10-20'
+TIMESTAMP	Date and time without a time zone	'2026-10-20 12:30:00'
+TIMESTAMPTZ	Date and time representing an instant	'2026-10-20 12:30:00+05:30'
+NUMERIC(p,s)	Exact decimal values	999.99
+JSONB	Structured JSON data	{"theme":"dark"}
+
+Backend tip: Use NUMERIC for monetary values when exact decimal arithmetic is required.
+Understand the distinction between TIMESTAMP and TIMESTAMPTZ when working with dates in APIs.
